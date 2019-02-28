@@ -1,0 +1,17 @@
+version: '3'
+services:
+  spec:
+    build: .
+    volumes:
+      - ./:/mesh/
+      #- /tmp/.X11-unix:/tmp/.X11-unix
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+    #environment:
+    #    - DISPLAY=192.168.11.2:0
+    privileged: true
+
+      
+    #ports:
+    #  - 8800:8800
