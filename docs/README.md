@@ -1,6 +1,6 @@
 # exodos2specfem3d
 
-This repository includes a small code which converts a mesh data of Exodos II format to SPECFEM3D format.  
+This is a small code which converts a mesh data of Exodos II format to SPECFEM3D format.  
 
 ## to compile 
 `docker-compose up -d` and `dokcer exec -it (name of the container generated) bash` to prepare the necessary libraries to compile the codes.  
