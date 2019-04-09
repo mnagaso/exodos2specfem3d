@@ -1,12 +1,12 @@
 COMPILER  = g++
 CFLAGS    = -std=c++11 -g -MMD -MP -Wall -Wextra -Winit-self -Wno-missing-field-initializers -DNO_XDMF_SUPPORT
 ifeq "$(shell getconf LONG_BIT)" "64"
-  LDFLAGS = -L./../seacas/lib -lio_info_lib -lIonit -lIotr -lIohb -lIogn -lIoexo_fac -lIofx -lIoex -lIoss -lexodus -lzoltan -lsimpi 
+  LDFLAGS = -L/usr/local/src/seacas/lib -lio_info_lib -lIonit -lIotr -lIohb -lIogn -lIoexo_fac -lIofx -lIoex -lIoss -lexodus -lzoltan -lsimpi 
 else
   LDFLAGS =
 endif
 LIBS      =
-INCLUDE   = -I./include -I./../seacas/packages/seacas/libraries/ioss/src/main -I./../seacas/packages/seacas/libraries/ioss/src -I./../seacas/include
+INCLUDE   = -I./include  -I/usr/local/src/seacas/packages/seacas/libraries/ioss/src/main -I/usr/local/src/seacas/packages/seacas/libraries/ioss/src -I/usr/local/src/seacas/include
 TARGET    = ./bin/$(shell basename `readlink -f .`)
 SRCDIR    = ./src
 ifeq "$(strip $(SRCDIR))" ""

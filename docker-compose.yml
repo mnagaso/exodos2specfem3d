@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/mesh/
       #- /tmp/.X11-unix:/tmp/.X11-unix
-    command: /bin/bash
+    command: bash
     tty: true
     stdin_open: true
     #environment:
