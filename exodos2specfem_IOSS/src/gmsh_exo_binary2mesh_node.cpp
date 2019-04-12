@@ -507,6 +507,7 @@ int main(int argc, char *argv[]) {
 
     for (int i_vol = 0; i_vol < num_volume_block; ++i_vol){
         int nnpe = num_node_per_elems[i_vol];
+        std::cout << "nnpe: " << nnpe << std::endl;
 
         if (i_vol != 0)
             offcet += num_elems[i_vol-1]; //offcet+j_ele = total element id (starting 0)
@@ -848,29 +849,38 @@ int main(int argc, char *argv[]) {
         write_nodes << '\n';
     }
 
+
+    ///////////////////////////////////////////////
+    //
+    // we here put the volume id = material id as attributes are not configurable from gmsh
+    //
+    ///////////////////////////////////////////////
     std::cout << "writing material file..." << '\n';
     elem_id = 1;
     for (int i = 0; i < num_volume_block; ++i){
-        for (int j = 0; j < attrs[i].size(); ++j){
-            if (j % num_attrs[i] == 0){
-                write_mat << elem_id << "   " << (int)attrs[i][j] << '\n';
-                //std::cout << "i,j: " << (int)i << ", " << j << ", elem_id " << elem_id << '\n';
-                elem_id++;
-            }
+        for (int j = 0; j < num_elems[i]; ++j){
+            write_mat << elem_id << "   " << i+1 << '\n';
+            //std::cout << "i,j: " << (int)i << ", " << j << ", elem_id " << elem_id << '\n';
+            elem_id++;
         }
     }
 
+    ////////////////////////////////////////////////
+    //
+    // nummaterial velocity file need to be modified manually
+    //
+    //////////////////////////////////////////////////
     std::cout << "writing nummaterial velocity file..." << '\n';
-    for (int i_block = 0; i_block < num_volume_block; i_block++){
-        write_num << i_block+1 << "  " << attrs[i_block][0] 
-                               << "  " << attrs[i_block][3] 
-                               << "  " << attrs[i_block][1]
-                               << "  " << attrs[i_block][2]
-                               << "  " << attrs[i_block][4]
-                               << "  " << attrs[i_block][5]
-                               << "  " << attrs[i_block][6];
-        write_num << '\n';
-    }
+//    for (int i_block = 0; i_block < num_volume_block; i_block++){
+//        write_num << i_block+1 << "  " << attrs[i_block][0] 
+//                               << "  " << attrs[i_block][3] 
+//                               << "  " << attrs[i_block][1]
+//                               << "  " << attrs[i_block][2]
+//                               << "  " << attrs[i_block][4]
+//                               << "  " << attrs[i_block][5]
+//                               << "  " << attrs[i_block][6];
+//        write_num << '\n';
+//    }
 
 
     write_num << '\n' << '\n' << '\n' << '\n';
