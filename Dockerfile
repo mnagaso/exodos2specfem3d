@@ -42,4 +42,6 @@ RUN tar -zxvf netcdf-c-4.6.3_mod.tar.gz \
 WORKDIR /usr/local/src/seacas
 RUN mkdir build && cd build && ../cmake-config && make && make install
 
-WORKDIR /mesh
+ADD . /mesh
+WORKDIR /mesh/exodos2specfem_IOSS
+RUN make && ln -s /mesh/exodos2specfem_IOSS/bin/exodos2specfem_IOSS /usr/bin/
