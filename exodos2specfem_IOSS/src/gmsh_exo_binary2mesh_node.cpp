@@ -747,11 +747,11 @@ int main(int argc, char *argv[]) {
     std::string mat_file        = out_path + "materials_file";
     std::string num_file        = out_path + "nummaterial_velocity_file";
     std::string top_file        = out_path + "free_or_absorbing_surface_file_zmax";
-    std::string abs_xmin_file   = out_path + "absorbing_cpml_file_xmin";
-    std::string abs_xmax_file   = out_path + "absorbing_cpml_file_xmax";
-    std::string abs_ymin_file   = out_path + "absorbing_cpml_file_ymin";
-    std::string abs_yman_file   = out_path + "absorbing_cpml_file_ymax";
-    std::string abs_bottom_file = out_path + "absorbing_cpml_file_bottom";
+    std::string abs_xmin_file   = out_path + "absorbing_surface_file_xmin";
+    std::string abs_xmax_file   = out_path + "absorbing_surface_file_xmax";
+    std::string abs_ymin_file   = out_path + "absorbing_surface_file_ymin";
+    std::string abs_yman_file   = out_path + "absorbing_surface_file_ymax";
+    std::string abs_bottom_file = out_path + "absorbing_surface_file_bottom";
     std::string cpml_file       = out_path + "absorbing_cpml_file";
 
     std::ofstream write_mesh;
