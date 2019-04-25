@@ -1,3 +1,3 @@
 #/bin/sh
 
-../exodos2specfem_IOSS/bin/exodos2specfem_IOSS example_mesh_unstructed.e ./MESH/ 0.02
+../exodos2specfem_IOSS/bin/exodos2specfem_IOSS test_mesh.e ./MESH/ 0.02
