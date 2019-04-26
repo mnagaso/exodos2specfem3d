@@ -187,7 +187,11 @@ int check_bb_sub (double &nx1, double &ny1, double &nz1,
                   double &nx4, double &ny4, double &nz4,
                   double &x_bmin, double &x_bmax, double &y_bmin,
                   double &y_bmax, double &z_bmin, double &z_bmax ){
+    // 
+    // sub rountine to check if a surface of an element is on the boundary surface
+    //
     int b_flag = -1;
+    /* center node strategy does not work for unconstructed mesh
     double center_x = (nx1+nx2+nx3+nx4)/4.0;
     double center_y = (ny1+ny2+ny3+ny4)/4.0; 
     double center_z = (nz1+nz2+nz3+nz4)/4.0;   
@@ -204,6 +208,33 @@ int check_bb_sub (double &nx1, double &ny1, double &nz1,
         b_flag = 4;
     else if (double_equals(center_z, z_bmax))//(center_z == z_bmax)
         b_flag = 5;
+    */
+
+    // for unstructured mesh, we take min max coord strategy.
+    std::vector<double> xs{nx1,nx2,nx3,nx4};
+    std::vector<double> ys{ny1,ny2,ny3,ny4};
+    std::vector<double> zs{nz1,nz2,nz3,nz4};
+
+    auto min_x = *std::min_element(xs.begin(),xs.end());
+    auto max_x = *std::max_element(xs.begin(),xs.end());
+    auto min_y = *std::min_element(ys.begin(),ys.end());
+    auto max_y = *std::max_element(ys.begin(),ys.end());
+    auto min_z = *std::min_element(zs.begin(),zs.end());
+    auto max_z = *std::max_element(zs.begin(),zs.end());
+
+    if (double_equals(min_x, x_bmin))      
+        b_flag = 0;
+    else if (double_equals(max_x, x_bmax)) 
+        b_flag = 1;
+    else if (double_equals(min_y, y_bmin))
+        b_flag = 2;
+    else if (double_equals(max_y, y_bmax))
+        b_flag = 3;
+    else if (double_equals(min_z, z_bmin))
+        b_flag = 4;
+    else if (double_equals(max_z, z_bmax))
+        b_flag = 5;
+ 
 
     return b_flag;
 }
