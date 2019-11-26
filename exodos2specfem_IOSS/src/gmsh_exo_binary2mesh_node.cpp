@@ -33,19 +33,19 @@ namespace {
     std::vector<std::string> aliases;
     if (region.get_aliases(ige->name(), aliases) > 0) {
       if (nl_pre) {
-        OUTPUT << "\n";
+        std::cout << "\n";
       }
-      OUTPUT << "\tAliases: ";
+      std::cout << "\tAliases: ";
       for (size_t i = 0; i < aliases.size(); i++) {
         if (aliases[i] != ige->name()) {
           if (i > 0) {
-            OUTPUT << ", ";
+            std::cout << ", ";
           }
-          OUTPUT << aliases[i];
+          std::cout << aliases[i];
         }
       }
       if (nl_post) {
-        OUTPUT << "\n";
+        std::cout << "\n";
       }
     }
   }
@@ -60,17 +60,17 @@ namespace {
     }
 
     if (!header.empty()) {
-      OUTPUT << header;
+      std::cout << header;
     }
     // Iterate through results fields and transfer to output
     // database...
     for (const auto &field_name : fields) {
       const Ioss::VariableType *var_type   = ige->get_field(field_name).raw_storage();
       int                       comp_count = var_type->component_count();
-      OUTPUT << std::setw(16) << field_name << ":" << comp_count << " ";
+      std::cout << std::setw(16) << field_name << ":" << comp_count << " ";
     }
     if (!header.empty()) {
-      OUTPUT << "\n";
+      std::cout << "\n";
     }
   }
 
@@ -110,9 +110,9 @@ std::tuple<int, int> info_nodeblock(Ioss::Region &region, const Info::Interface 
     total_num_nodes += num_nodes;
     degree = nb->get_property("component_degree").get_int();
   }
-  OUTPUT << " Number of spatial dimensions =" << std::setw(12) << degree << "\n";
-  OUTPUT << " Number of nodeblocks         =" << std::setw(12) << nbs.size() << "\t";
-  OUTPUT << " Number of nodes              =" << std::setw(12) << total_num_nodes << "\n";
+  std::cout << " Number of spatial dimensions =" << std::setw(12) << degree << "\n";
+  std::cout << " Number of nodeblocks         =" << std::setw(12) << nbs.size() << "\t";
+  std::cout << " Number of nodes              =" << std::setw(12) << total_num_nodes << "\n";
 
   return std::forward_as_tuple(degree, total_num_nodes);
 }
@@ -129,7 +129,7 @@ void info_elementblock(Ioss::Region &region, const Info::Interface &interface, b
     if (!summary) {
       std::string type       = eb->get_property("topology_type").get_string();
       int64_t     num_attrib = eb->get_property("attribute_count").get_int();
-      OUTPUT << '\n'
+      std::cout << '\n'
              << name(eb)   << " id: " << std::setw(6)  << id(eb)   << ", topology: " << std::setw(10)
              << type       << ", "    << std::setw(12) << num_elem << " elements, "  << std::setw(3)
              << num_attrib << " attributes.";
@@ -140,17 +140,17 @@ void info_elementblock(Ioss::Region &region, const Info::Interface &interface, b
       if (interface.adjacencies()) {
         std::vector<std::string> blocks;
         eb->get_block_adjacencies(blocks);
-        OUTPUT << "\n\tAdjacent to  " << blocks.size() << " element block(s):\t";
+        std::cout << "\n\tAdjacent to  " << blocks.size() << " element block(s):\t";
         for (const auto &block : blocks) {
-          OUTPUT << block << "  ";
+          std::cout << block << "  ";
         }
       }
       info_fields(eb, Ioss::Field::TRANSIENT, "\n\tTransient:  ");
-      OUTPUT << "\n";
+      std::cout << "\n";
 
      
       Ioss::AxisAlignedBoundingBox bbox = eb->get_bounding_box();
-      OUTPUT << "\tBounding Box: Minimum X,Y,Z = " << std::setprecision(4) << std::scientific
+      std::cout << "\tBounding Box: Minimum X,Y,Z = " << std::setprecision(4) << std::scientific
              << std::setw(12) << bbox.xmin << "\t" << std::setw(12) << bbox.ymin << "\t"
              << std::setw(12) << bbox.zmin << "\n"
              << "\t              Maximum X,Y,Z = " << std::setprecision(4) << std::scientific
@@ -160,8 +160,8 @@ void info_elementblock(Ioss::Region &region, const Info::Interface &interface, b
     }
   }
   if (summary) {
-    OUTPUT << " Number of element blocks     =" << std::setw(12) << ebs.size() << "\t";
-    OUTPUT << " Number of elements           =" << std::setw(12) << total_elements << "\n";
+    std::cout << " Number of element blocks     =" << std::setw(12) << ebs.size() << "\t";
+    std::cout << " Number of elements           =" << std::setw(12) << total_elements << "\n";
   }
 }
 
@@ -364,8 +364,8 @@ int main(int argc, char *argv[]) {
   
     Ioss::Init::Initializer io;
 
-    OUTPUT << "Input:    '" << interface.filename() << "', Type: " << interface.type() << '\n';
-    OUTPUT << '\n';
+    std::cout << "Input:    '" << interface.filename() << "', Type: " << interface.type() << '\n';
+    std::cout << '\n';
 
     std::string inpfile    = interface.filename();
     std::string input_type = interface.type();
@@ -461,9 +461,9 @@ int main(int argc, char *argv[]) {
         if (count_eb >= num_volume_block){
             std::vector<std::string> blocks;
             eb->get_block_adjacencies(blocks);
-            OUTPUT << "\n\tAdjacent to  " << blocks.size() << " element block(s):\t";
+            std::cout << "\n\tAdjacent to  " << blocks.size() << " element block(s):\t";
             for (const auto &block : blocks) {
-                OUTPUT << block << "  ";
+                std::cout << block << "  ";
             }
 
         }
@@ -482,7 +482,7 @@ int main(int argc, char *argv[]) {
     }
 
     
-    OUTPUT << "\tTotal Bounding Box: Minimum X,Y,Z = " << std::setprecision(4) << std::scientific
+    std::cout << "\tTotal Bounding Box: Minimum X,Y,Z = " << std::setprecision(4) << std::scientific
          << std::setw(12) << x_bound_min << "\t" << std::setw(12) << y_bound_min << "\t"
          << std::setw(12) << z_bound_min << "\n"
          << "\t              Maximum X,Y,Z = " << std::setprecision(4) << std::scientific
